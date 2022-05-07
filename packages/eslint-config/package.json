@@ -1,0 +1,14 @@
+{
+	"name": "eslint-config-custom",
+	"devDependencies": {
+		"@typescript-eslint/parser": "5.21",
+		"@typescript-eslint/eslint-plugin": "5.21",
+		"eslint": "8.14",
+		"eslint-config-kentcdodds": "20.2",
+		"eslint-plugin-jest-dom": "4.0",
+		"eslint-import-resolver-typescript": "2.7",
+		"eslint-plugin-testing-library": "5.3",
+		"eslint-plugin-jsx-a11y": "6.5",
+		"eslint-plugin-prettier": "4.0"
+	}
+}

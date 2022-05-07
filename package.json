@@ -1,0 +1,42 @@
+{
+	"name": "hobby-tracker",
+	"version": "1.0.0",
+	"description": "Track all your hobby in one place",
+	"author": "Muhammad Yusuf <yusuf@iamyuu.dev> (https://iamyuu.dev)",
+	"license": "MIT",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"setup": "npm install && husky install",
+		"dev": "turbo run dev --no-cache --parallel --continue",
+		"build": "turbo run build",
+		"lint": "turbo run lint",
+		"test": "turbo run test",
+		"clean": "turbo run clean && rm -rf node_modules",
+		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,md,json}\" --ignore-path .gitignore"
+	},
+	"devDependencies": {
+		"husky": "7.0",
+		"lint-staged": "12.4",
+		"prettier": "2.6",
+		"pretty-quick": "3.1.3",
+		"turbo": "1.2"
+	},
+	"prettier": {
+		"arrowParens": "avoid",
+		"bracketSpacing": true,
+		"endOfLine": "auto",
+		"printWidth": 120,
+		"semi": true,
+		"singleQuote": true,
+		"jsxSingleQuote": true,
+		"trailingComma": "all",
+		"useTabs": true
+	},
+	"lint-staged": {
+		"*.{ts,tsx}": "npm run lint",
+		"*.{ts,tsx,css,md}": "pretty-quick --staged"
+	}
+}
