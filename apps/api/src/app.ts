@@ -1,35 +1,36 @@
 import { join } from 'path';
-import AutoLoad, {AutoloadPluginOptions} from 'fastify-autoload';
-import { FastifyPluginAsync } from 'fastify';
+import fastify from 'fastify';
+import autoload from '@fastify/autoload';
+import helmet from '@fastify/helmet';
+import sensible from '@fastify/sensible';
+import loggerConfig from './config/logger';
+import { PORT } from './config/app';
 
-export type AppOptions = {
-  // Place your custom options for app below here.
-} & Partial<AutoloadPluginOptions>;
+const app = fastify({
+	logger: loggerConfig,
+});
 
-const app: FastifyPluginAsync<AppOptions> = async (
-    fastify,
-    opts
-): Promise<void> => {
-  // Place here your custom code!
+function onStart(error: Error | null) {
+	if (error) {
+		app.log.error(`🚨 Server error: ${error.message}`);
+		process.exit(1);
+	}
+}
 
-  // Do not touch the following lines
+function onClose(signal: string) {
+	app.log.warn(`⚠️ Received Signal: ${signal}`);
+	app.close().catch(app.log.error);
+	process.exit(1);
+}
 
-  // This loads all plugins defined in plugins
-  // those should be support plugins that are reused
-  // through your application
-  void fastify.register(AutoLoad, {
-    dir: join(__dirname, 'plugins'),
-    options: opts
-  })
+app
+	.register(helmet)
+	.register(sensible)
+	.register(autoload, { dir: join(__dirname, 'plugins') })
+	.register(autoload, { dir: join(__dirname, 'routes') })
+	.listen(PORT, '0.0.0.0', onStart);
 
-  // This loads all plugins defined in routes
-  // define your routes in one of these
-  void fastify.register(AutoLoad, {
-    dir: join(__dirname, 'routes'),
-    options: opts
-  })
-
-};
-
-export default app;
-export { app }
+process.on('SIGINT', () => onClose('SIGINT'));
+process.on('SIGTERM', () => onClose('SIGTERM'));
+process.on('uncaughtException', app.log.error);
+process.on('unhandledRejection', app.log.error);

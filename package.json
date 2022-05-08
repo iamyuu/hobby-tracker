@@ -11,17 +11,19 @@
 	"scripts": {
 		"setup": "npm install && husky install",
 		"dev": "turbo run dev --no-cache --parallel --continue",
+		"dev:api": "npm run -w api dev",
+		"dev:web": "npm run -w web dev",
 		"build": "turbo run build",
 		"lint": "turbo run lint",
 		"test": "turbo run test",
 		"clean": "turbo run clean && rm -rf node_modules",
-		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,md,json}\" --ignore-path .gitignore"
+		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,md,json}\" \"!package-lock.json\" --ignore-path .gitignore"
 	},
 	"devDependencies": {
 		"husky": "7.0",
 		"lint-staged": "12.4",
 		"prettier": "2.6",
-		"pretty-quick": "3.1.3",
+		"pretty-quick": "3.1",
 		"turbo": "1.2"
 	},
 	"prettier": {
@@ -36,7 +38,7 @@
 		"useTabs": true
 	},
 	"lint-staged": {
-		"*.{ts,tsx}": "npm run lint",
-		"*.{ts,tsx,css,md}": "pretty-quick --staged"
+		"*.{js,jsx,ts,tsx}": "npm run lint",
+		"*.{js,jsx,ts,tsx,css,md}": "pretty-quick --staged"
 	}
 }

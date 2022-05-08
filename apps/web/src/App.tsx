@@ -1,27 +1,14 @@
-import type { Component } from 'solid-js';
+/* @refresh reload */
+import { render } from 'solid-js/web';
+import { AppProviders } from './providers';
+import IndexPage from './routes';
 
-import logo from './logo.svg';
-import styles from './App.module.css';
+function App() {
+	return (
+		<AppProviders>
+			<IndexPage />
+		</AppProviders>
+	);
+}
 
-const App: Component = () => {
-  return (
-    <div class={styles.App}>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
-    </div>
-  );
-};
-
-export default App;
+render(() => <App />, document.getElementById('root') as HTMLElement);
